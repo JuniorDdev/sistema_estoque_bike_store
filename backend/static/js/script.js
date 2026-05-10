@@ -1,4 +1,4 @@
-const API_URL = window.location.origin;
+﻿const API_URL = window.location.origin;
 
 const productForm = document.getElementById("productForm");
 const productsTableBody = document.getElementById("productsTableBody");
@@ -136,7 +136,7 @@ async function deleteProduct(id) {
             return;
         }
 
-        alert("Produto excluído com sucesso!");
+        alert("Produto excluido com sucesso!");
 
         loadProducts();
 
@@ -153,10 +153,10 @@ logoutBtn.addEventListener("click", async () => {
             credentials: "include"
         });
 
-        window.location.href = "login.html";
+        window.location.href = "/";
 
     } catch (error) {
-        window.location.href = "login.html";
+        window.location.href = "/";
     }
 });
 

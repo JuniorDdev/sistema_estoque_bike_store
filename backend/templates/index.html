@@ -1,162 +1,85 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-
     <meta charset="UTF-8">
-
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>Sistema de Estoque</title>
-
+    <title>Dashboard de Estoque</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
-
 </head>
-
 <body>
-
     <div class="container">
-
         <div class="top-bar">
-
-            <h1>📦 Sistema de Estoque</h1>
-
-            <button id="logoutBtn" class="btn-logout">
-                🚪 Logout
-            </button>
-
+            <h1>Sistema de Estoque</h1>
+            <button id="logoutBtn" class="btn-logout">Logout</button>
         </div>
 
+        <div class="nav-links">
+            <a href="/dashboard" class="nav-link active">Estoque</a>
+            <a href="/loja" class="nav-link">Loja</a>
+            <a href="/relatorio" class="nav-link">Relatorio</a>
+        </div>
 
         <div class="form-container">
-
-            <h2>➕ Adicionar Produto</h2>
-
+            <h2>Adicionar Produto</h2>
             <form id="productForm">
-
                 <div class="form-row">
-
                     <div class="form-group">
-                        <label>Código</label>
-
-                        <input
-                            type="text"
-                            id="productCode"
-                            placeholder="Ex: BIK-001"
-                            required
-                        >
+                        <label>Codigo</label>
+                        <input type="text" id="productCode" placeholder="Ex: BIK-001" required>
                     </div>
-
                     <div class="form-group">
                         <label>Nome</label>
-
-                        <input
-                            type="text"
-                            id="productName"
-                            placeholder="Nome do produto"
-                            required
-                        >
+                        <input type="text" id="productName" placeholder="Nome do produto" required>
                     </div>
-
                 </div>
-
 
                 <div class="form-row">
-
                     <div class="form-group">
                         <label>Categoria</label>
-
-                        <input
-                            type="text"
-                            id="productCategory"
-                            placeholder="Categoria"
-                        >
+                        <input type="text" id="productCategory" placeholder="Categoria">
                     </div>
-
                     <div class="form-group">
-                        <label>Preço</label>
-
-                        <input
-                            type="number"
-                            id="productPrice"
-                            step="0.01"
-                            placeholder="0.00"
-                            required
-                        >
+                        <label>Preco</label>
+                        <input type="number" id="productPrice" step="0.01" placeholder="0.00" required>
                     </div>
-
                     <div class="form-group">
                         <label>Quantidade</label>
-
-                        <input
-                            type="number"
-                            id="productQuantity"
-                            placeholder="0"
-                            required
-                        >
+                        <input type="number" id="productQuantity" placeholder="0" required>
                     </div>
-
                 </div>
-
 
                 <div class="form-group">
-
-                    <label>Descrição</label>
-
-                    <textarea
-                        id="productDescription"
-                        rows="3"
-                        placeholder="Descrição do produto"
-                    ></textarea>
-
+                    <label>Descricao</label>
+                    <textarea id="productDescription" rows="3" placeholder="Descricao do produto"></textarea>
                 </div>
 
-
-                <button type="submit" class="btn-submit">
-                    ➕ Adicionar Produto
-                </button>
-
+                <button type="submit" class="btn-submit">Adicionar Produto</button>
             </form>
-
         </div>
-
 
         <div class="products-container">
-
-            <h2>📋 Produtos em Estoque</h2>
-
+            <h2>Produtos em Estoque</h2>
             <table class="products-table">
-
                 <thead>
-
                     <tr>
                         <th>ID</th>
-                        <th>Código</th>
+                        <th>Codigo</th>
                         <th>Nome</th>
                         <th>Categoria</th>
-                        <th>Preço</th>
+                        <th>Preco</th>
                         <th>Quantidade</th>
-                        <th>Ações</th>
+                        <th>Acoes</th>
                     </tr>
-
                 </thead>
-
                 <tbody id="productsTableBody">
-
                     <tr>
-                        <td colspan="7">
-                            Carregando produtos...
-                        </td>
+                        <td colspan="7">Carregando produtos...</td>
                     </tr>
-
                 </tbody>
-
             </table>
-
         </div>
-
     </div>
 
     <script src="{{ url_for('static', filename='js/script.js') }}"></script>
-
 </body>
 </html>

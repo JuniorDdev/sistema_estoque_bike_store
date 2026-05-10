@@ -1,0 +1,71 @@
+﻿<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Relatorio de Vendas</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+    <div class="container">
+        <div class="top-bar">
+            <h1>Relatorio de Vendas</h1>
+            <button id="logoutBtn" class="btn-logout">Logout</button>
+        </div>
+
+        <div class="nav-links">
+            <a href="/dashboard" class="nav-link">Estoque</a>
+            <a href="/loja" class="nav-link">Loja</a>
+            <a href="/relatorio" class="nav-link active">Relatorio</a>
+        </div>
+
+        <div class="form-container">
+            <h2>Filtro</h2>
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Periodo</label>
+                    <select id="periodSelect">
+                        <option value="day">Dia</option>
+                        <option value="month">Mes</option>
+                    </select>
+                </div>
+            </div>
+            <button id="refreshReportBtn" class="btn-submit" type="button">Atualizar relatorio</button>
+        </div>
+
+        <div class="products-container">
+            <h2>Dashboard</h2>
+            <div class="cards-grid">
+                <div class="kpi-card"><span>Vendas</span><strong id="kpiSales">0</strong></div>
+                <div class="kpi-card"><span>Itens vendidos</span><strong id="kpiItems">0</strong></div>
+                <div class="kpi-card"><span>Receita</span><strong id="kpiRevenue">R$ 0,00</strong></div>
+                <div class="kpi-card"><span>Ticket medio</span><strong id="kpiTicket">R$ 0,00</strong></div>
+            </div>
+            <div class="export-row">
+                <button data-format="xlsx" class="btn-submit export-btn" type="button">Exportar Excel</button>
+                <button data-format="csv" class="btn-submit export-btn" type="button">Exportar CSV</button>
+                <button data-format="pdf" class="btn-submit export-btn" type="button">Exportar PDF</button>
+            </div>
+        </div>
+
+        <div class="products-container">
+            <h2>Vendas</h2>
+            <table class="products-table">
+                <thead>
+                    <tr>
+                        <th>Venda</th>
+                        <th>Data</th>
+                        <th>Produto</th>
+                        <th>Qtd</th>
+                        <th>Unit.</th>
+                        <th>Total</th>
+                    </tr>
+                </thead>
+                <tbody id="reportTableBody"></tbody>
+            </table>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/relatorio.js') }}"></script>
+</body>
+</html>

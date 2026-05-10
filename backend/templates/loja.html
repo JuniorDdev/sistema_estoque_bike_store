@@ -1,0 +1,64 @@
+﻿<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Loja</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+    <div class="container">
+        <div class="top-bar">
+            <h1>Loja</h1>
+            <button id="logoutBtn" class="btn-logout">Logout</button>
+        </div>
+
+        <div class="nav-links">
+            <a href="/dashboard" class="nav-link">Estoque</a>
+            <a href="/loja" class="nav-link active">Loja</a>
+            <a href="/relatorio" class="nav-link">Relatorio</a>
+        </div>
+
+        <div class="form-container">
+            <h2>Nova Venda</h2>
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Buscar produto (nome ou codigo)</label>
+                    <input type="text" id="searchInput" placeholder="Digite para buscar">
+                </div>
+                <div class="form-group">
+                    <label>Quantidade</label>
+                    <input type="number" id="saleQuantity" min="1" value="1">
+                </div>
+                <div class="form-group">
+                    <label>Selecionado</label>
+                    <input type="text" id="selectedProductLabel" readonly placeholder="Nenhum produto selecionado">
+                </div>
+            </div>
+            <div id="searchResults" class="search-results"></div>
+            <button id="addItemBtn" class="btn-submit" type="button">Adicionar item</button>
+        </div>
+
+        <div class="products-container">
+            <h2>Itens da Venda</h2>
+            <table class="products-table">
+                <thead>
+                    <tr>
+                        <th>Codigo</th>
+                        <th>Produto</th>
+                        <th>Preco Unit.</th>
+                        <th>Qtd</th>
+                        <th>Total</th>
+                        <th>Acoes</th>
+                    </tr>
+                </thead>
+                <tbody id="saleItemsBody"></tbody>
+            </table>
+            <p id="saleTotal" class="sale-total">Total: R$ 0,00</p>
+            <button id="finishSaleBtn" class="btn-submit" type="button">Finalizar venda</button>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/loja.js') }}"></script>
+</body>
+</html>
