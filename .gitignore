@@ -1,0 +1,19 @@
+# Ambiente virtual
+.venv/
+
+# Banco SQLite
+*.db
+
+# Python cache
+__pycache__/
+*.pyc
+
+# VS Code
+.vscode/
+
+# Logs
+*.log
+
+# Sistema
+Thumbs.db
+.DS_Store
