@@ -129,7 +129,12 @@ async function deleteProduct(id) {
             credentials: "include"
         });
 
-        const data = await response.json();
+        let data = {};
+        try {
+            data = await response.json();
+        } catch (e) {
+            data = { error: "Resposta invalida do servidor ao excluir produto." };
+        }
 
         if (!response.ok) {
             alert(data.error || "Erro ao excluir produto.");

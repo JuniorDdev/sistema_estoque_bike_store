@@ -12,6 +12,7 @@ from openpyxl.styles import Font
 from reportlab.lib.pagesizes import A4
 from reportlab.pdfgen import canvas
 from sqlalchemy import func, or_
+from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.orm import joinedload
 
 from config import Config
@@ -26,8 +27,8 @@ CORS(app, supports_credentials=True)
 db.init_app(app)
 migrate.init_app(app, db)
 
-ADMIN_USER = "admin"
-ADMIN_PASSWORD = "Admin@2026"
+ADMIN_USER = "testezila"
+ADMIN_PASSWORD = "testezila@123"
 
 
 def validate_code(code):
@@ -238,7 +239,7 @@ def update_product(product_id):
     if not data:
         return jsonify({"error": "Nenhum dado fornecido"}), 400
 
-    product = Product.query.get(product_id)
+    product = db.session.get(Product, product_id)
     if not product:
         return jsonify({"error": "Produto nao encontrado"}), 404
 
@@ -291,15 +292,26 @@ def update_product(product_id):
 @app.route("/api/products/<int:product_id>", methods=["DELETE"])
 @login_required
 def delete_product(product_id):
-    product = Product.query.get(product_id)
-    if not product:
-        return jsonify({"error": "Produto nao encontrado"}), 404
+    try:
+        product = db.session.get(Product, product_id)
+        if not product:
+            return jsonify({"error": "Produto nao encontrado"}), 404
 
-    product_name = product.name
-    db.session.delete(product)
-    db.session.commit()
+        sales_count = db.session.query(func.count(SaleItem.id)).filter(SaleItem.product_id == product.id).scalar()
+        if sales_count and sales_count > 0:
+            return jsonify({"error": "Nao e possivel excluir: produto possui historico de vendas"}), 400
 
-    return jsonify({"message": f'Produto "{product_name}" removido com sucesso'}), 200
+        product_name = product.name
+        db.session.delete(product)
+        db.session.commit()
+
+        return jsonify({"message": f'Produto "{product_name}" removido com sucesso'}), 200
+    except SQLAlchemyError:
+        db.session.rollback()
+        return jsonify({"error": "Erro no banco ao excluir produto"}), 500
+    except Exception:
+        db.session.rollback()
+        return jsonify({"error": "Erro interno ao excluir produto"}), 500
 
 
 @app.route("/api/products/search", methods=["GET"])
@@ -399,7 +411,7 @@ def create_sale():
     sale.total_amount = total_amount.quantize(Decimal("0.01"))
     db.session.commit()
 
-    sale = Sale.query.options(joinedload(Sale.items).joinedload(SaleItem.product)).get(sale.id)
+    sale = db.session.get(Sale, sale.id, options=[joinedload(Sale.items).joinedload(SaleItem.product)])
     return jsonify({"message": "Venda registrada com sucesso", "sale": sale.to_dict()}), 201
 
 

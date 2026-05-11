@@ -21,7 +21,7 @@ class Product(db.Model):
         cascade="all, delete-orphan",
         order_by="desc(StockMovement.created_at)",
     )
-    sale_items = db.relationship("SaleItem", back_populates="product")
+    sale_items = db.relationship("SaleItem", back_populates="product", passive_deletes=True)
 
     def to_dict(self):
         return {
@@ -40,7 +40,12 @@ class StockMovement(db.Model):
     __tablename__ = "stock_movements"
 
     id = db.Column(db.Integer, primary_key=True)
-    product_id = db.Column(db.Integer, db.ForeignKey("products.id"), nullable=False, index=True)
+    product_id = db.Column(
+        db.Integer,
+        db.ForeignKey("products.id", ondelete="RESTRICT"),
+        nullable=False,
+        index=True,
+    )
     quantity = db.Column(db.Integer, nullable=False)
     type = db.Column(db.String(20), nullable=False)
     observation = db.Column(db.Text, nullable=False, default="")
